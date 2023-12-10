@@ -16,12 +16,18 @@ return new class extends Migration
             $table->string('disk');
             $table->string('mime_type');
             $table->unsignedInteger('size');
-            $table->unsignedBigInteger('record_left')->nullable();
-            $table->unsignedBigInteger('record_right')->nullable();
-            $table->unsignedBigInteger('record_dept')->nullable();
-            $table->unsignedBigInteger('record_ordering')->nullable();
-            $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('custom_attribute')->nullable();
+
+            $table->foreignUlid('created_by')
+                ->constrained('users')
+                ->cascadeOnDelete();
+            $table->foreignUlid('updated_by')
+                ->constrained('users')
+                ->cascadeOnDelete();
+            $table->foreignUlid('deleted_by')
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnDelete();
             $table->softDeletes();
             $table->timestamps();
         });

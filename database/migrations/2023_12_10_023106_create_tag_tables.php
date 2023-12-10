@@ -16,6 +16,17 @@ return new class extends Migration
             $table->string('type')->nullable();
             $table->integer('order_column')->nullable();
 
+            $table->foreignUlid('created_by')
+                ->constrained('users')
+                ->cascadeOnDelete();
+            $table->foreignUlid('updated_by')
+                ->constrained('users')
+                ->cascadeOnDelete();
+            $table->foreignUlid('deleted_by')
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnDelete();
+            $table->softDeletes();
             $table->timestamps();
         });
 

@@ -4,18 +4,17 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+return new class() extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
-        Schema::create('team_invitations', function (Blueprint $table) {
-            $table->ulid('id')->primary();
-            $table->foreignUlid('team_id')->constrained()->cascadeOnDelete();
-            $table->string('email');
-            $table->string('role')->nullable();
+        Schema::create(table: 'approvals', callback: function (Blueprint $table) {
+            $table->id();
+            $table->nullableMorphs(config(key: 'approval.approval.approval_pivot'));
+            $table->enum('state', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->json('new_data')->nullable();
+            $table->json('original_data')->nullable();
+
             $table->foreignUlid('created_by')
                 ->constrained('users')
                 ->cascadeOnDelete();
@@ -28,16 +27,11 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->softDeletes();
             $table->timestamps();
-
-            $table->unique(['team_id', 'email']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('team_invitations');
+        Schema::dropIfExists(table: 'approvals');
     }
 };

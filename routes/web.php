@@ -32,4 +32,19 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    // Users
+    Route::get('users', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('users');
+    Route::get('users/create', [\App\Http\Controllers\Admin\UserController::class, 'create'])->name('users.create');
+    Route::post('users', [\App\Http\Controllers\Admin\UserController::class, 'store'])->name('users.store');
+    Route::get('users/{user}/edit', [\App\Http\Controllers\Admin\UserController::class, 'edit'])->name('users.edit');
+    Route::put('users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'update'])->name('users.update');
+    Route::delete('users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
+    Route::put('users/{user}/restore', [\App\Http\Controllers\Admin\UserController::class, 'restore'])->name('users.restore');
 });
+
+
+
+Route::get('/img/{path}', \App\Http\Controllers\ImagesController::class)
+    ->where('path', '.*')
+    ->name('image');

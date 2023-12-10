@@ -20,11 +20,18 @@ return new class extends Migration
             $table->string('cover')->nullable();
             $table->integer('status')->default(0);
             NestedSet::columns($table);
-            $table->timestamps();
+            $table->foreignUlid('created_by')
+                ->constrained('users')
+                ->cascadeOnDelete();
+            $table->foreignUlid('updated_by')
+                ->constrained('users')
+                ->cascadeOnDelete();
+            $table->foreignUlid('deleted_by')
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnDelete();
             $table->softDeletes();
-            $table->foreignUlid('created_by')->nullable();
-            $table->foreignUlid('updated_by')->nullable();
-            $table->foreignUlid('deleted_by')->nullable();
+            $table->timestamps();
         });
     }
 

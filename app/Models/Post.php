@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Cjmellor\Approval\Concerns\MustBeApproved;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kalnoy\Nestedset\NodeTrait;
 use Laravel\Scout\Searchable;
+use Wildside\Userstamps\Userstamps;
 
 /**
  * App\Models\Post
@@ -76,8 +78,10 @@ use Laravel\Scout\Searchable;
 class Post extends Model
 {
     use HasFactory;
+    use MustBeApproved;
     use NodeTrait;
     use Searchable {
         \Laravel\Scout\Searchable::usesSoftDelete insteadof \Kalnoy\Nestedset\NodeTrait;
     }
+    use Userstamps;
 }
