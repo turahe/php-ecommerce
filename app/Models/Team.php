@@ -31,6 +31,7 @@ use Wildside\Userstamps\Userstamps;
  * @property-read int|null $team_invitations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
+ *
  * @method static \Database\Factories\TeamFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Team newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Team newQuery()
@@ -45,6 +46,7 @@ use Wildside\Userstamps\Userstamps;
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class Team extends JetstreamTeam

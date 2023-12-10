@@ -17,6 +17,7 @@ use Laravel\Jetstream\Membership as JetstreamMembership;
  * @property string|null $created_by
  * @property string|null $updated_by
  * @property string|null $deleted_by
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Membership newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Membership newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Membership query()
@@ -30,6 +31,7 @@ use Laravel\Jetstream\Membership as JetstreamMembership;
  * @method static \Illuminate\Database\Eloquent\Builder|Membership whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Membership whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Membership whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class Membership extends JetstreamMembership

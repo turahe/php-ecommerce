@@ -1,11 +1,12 @@
 <?php
+
 namespace App\Notifications\Users;
 
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class UserFailedLoginNotification extends Notification implements ShouldQueue
 {
@@ -63,13 +64,13 @@ class UserFailedLoginNotification extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'category'    => 'user',
-            'title'       => 'User login failed',
+            'category' => 'user',
+            'title' => 'User login failed',
             'description' => 'We Noticed a New Login from '.$this->userAgent.' by ip '.$this->ip.' ('.gethostbyaddr($this->ip).') at '.$this->time,
-            'action'      => [
-                'type'   => 'link',
+            'action' => [
+                'type' => 'link',
                 'params' => [
-                    'url'   => '',
+                    'url' => '',
                     'label' => 'View',
                 ],
             ],

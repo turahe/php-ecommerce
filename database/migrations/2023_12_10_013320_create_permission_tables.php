@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -49,17 +49,17 @@ return new class extends Migration
             }
         });
 
-        Schema::create($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames, $columnNames, $pivotPermission, $teams) {
+        Schema::create($tableNames['model_has_permissions'], function (Blueprint $table) use ($columnNames, $pivotPermission, $teams) {
             $table->foreignUlid($pivotPermission);
 
             $table->string('model_type');
             $table->ulid($columnNames['model_morph_key']);
             $table->index([$columnNames['model_morph_key'], 'model_type'], 'model_has_permissions_model_id_model_type_index');
 
-//            $table->foreign($pivotPermission)
-//                ->references('id') // permission id
-//                ->on($tableNames['permissions'])
-//                ->onDelete('cascade');
+            //            $table->foreign($pivotPermission)
+            //                ->references('id') // permission id
+            //                ->on($tableNames['permissions'])
+            //                ->onDelete('cascade');
             if ($teams) {
                 $table->ulid($columnNames['team_foreign_key']);
                 $table->index($columnNames['team_foreign_key'], 'model_has_permissions_team_foreign_key_index');
@@ -73,17 +73,17 @@ return new class extends Migration
 
         });
 
-        Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames, $columnNames, $pivotRole, $teams) {
+        Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($columnNames, $pivotRole, $teams) {
             $table->foreignUlid($pivotRole);
 
             $table->string('model_type');
             $table->ulid($columnNames['model_morph_key']);
             $table->index([$columnNames['model_morph_key'], 'model_type'], 'model_has_roles_model_id_model_type_index');
 
-//            $table->foreignUlid($pivotRole)
-//                ->references('id') // role id
-//                ->on($tableNames['roles'])
-//                ->onDelete('cascade');
+            //            $table->foreignUlid($pivotRole)
+            //                ->references('id') // role id
+            //                ->on($tableNames['roles'])
+            //                ->onDelete('cascade');
             if ($teams) {
                 $table->ulid($columnNames['team_foreign_key']);
                 $table->index($columnNames['team_foreign_key'], 'model_has_roles_team_foreign_key_index');
@@ -96,19 +96,19 @@ return new class extends Migration
             }
         });
 
-        Schema::create($tableNames['role_has_permissions'], function (Blueprint $table) use ($tableNames, $pivotRole, $pivotPermission) {
+        Schema::create($tableNames['role_has_permissions'], function (Blueprint $table) use ($pivotRole, $pivotPermission) {
             $table->foreignUlid($pivotPermission);
             $table->foreignUlid($pivotRole);
 
-//            $table->foreign($pivotPermission)
-//                ->references('id') // permission id
-//                ->on($tableNames['permissions'])
-//                ->onDelete('cascade');
-//
-//            $table->foreign($pivotRole)
-//                ->references('id') // role id
-//                ->on($tableNames['roles'])
-//                ->onDelete('cascade');
+            //            $table->foreign($pivotPermission)
+            //                ->references('id') // permission id
+            //                ->on($tableNames['permissions'])
+            //                ->onDelete('cascade');
+            //
+            //            $table->foreign($pivotRole)
+            //                ->references('id') // role id
+            //                ->on($tableNames['roles'])
+            //                ->onDelete('cascade');
 
             $table->primary([$pivotPermission, $pivotRole], 'role_has_permissions_permission_id_role_id_primary');
         });

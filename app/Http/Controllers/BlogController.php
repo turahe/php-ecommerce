@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use Illuminate\Http\Request;
 use Turahe\SEOTools\Contracts\Tools;
 
 class BlogController extends Controller

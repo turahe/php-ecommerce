@@ -28,6 +28,7 @@ use Wildside\Userstamps\Userstamps;
  * @property-read \App\Models\User|null $creator
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
+ *
  * @method static \Database\Factories\ProductFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Product newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Product newQuery()
@@ -47,6 +48,7 @@ use Wildside\Userstamps\Userstamps;
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedBy($value)
+ *
  * @mixin \Eloquent
  */
 class Product extends Model

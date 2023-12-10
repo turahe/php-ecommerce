@@ -1,12 +1,13 @@
 <?php
+
 namespace App\Notifications\Users;
 
 use Carbon\Carbon;
-use Jenssegers\Agent\Agent;
+use Detection\MobileDetect;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class UserLoginNotification extends Notification implements ShouldQueue
 {
@@ -38,7 +39,7 @@ class UserLoginNotification extends Notification implements ShouldQueue
         $this->ip = $ip;
         $this->userAgent = $userAgent;
         $this->time = Carbon::now();
-        $this->agent = new Agent();
+        $this->agent = new MobileDetect();
     }
 
     /**
@@ -67,13 +68,13 @@ class UserLoginNotification extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'category'    => 'user',
-            'title'       => 'User login success',
+            'category' => 'user',
+            'title' => 'User login success',
             'description' => 'We Noticed a New Login from '.$this->userAgent.' by ip '.$this->ip.' ('.gethostbyaddr($this->ip).') at '.$this->time,
-            'action'      => [
-                'type'   => 'link',
+            'action' => [
+                'type' => 'link',
                 'params' => [
-                    'url'   => '',
+                    'url' => '',
                     'label' => 'View',
                 ],
             ],
@@ -93,7 +94,6 @@ class UserLoginNotification extends Notification implements ShouldQueue
             ->greeting('Successful Account Login')
             ->line('A successful login was detected for your account.')
             ->line('We Noticed a New Login from '.$this->userAgent.' by ip '.$this->ip.' ('.gethostbyaddr($this->ip).') at '.$this->time)
-            ->line('If this was you, you can safely disregard this email. If this wasn\'t you, you can secure your account here
-            Learn more about keeping your account secure.');
+            ->line('If this was you, you can safely disregard this email. If this wasn\'t you, you can secure your account here Learn more about keeping your account secure.');
     }
 }

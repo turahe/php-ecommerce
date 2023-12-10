@@ -12,10 +12,10 @@ use Turahe\Media\MediaUploader;
 class HasProfilePhoto
 {
     use HasMedia;
+
     /**
      * Update the user's profile photo.
      *
-     * @param  \Illuminate\Http\UploadedFile  $photo
      * @param  string  $storagePath
      * @return void
      */
@@ -32,11 +32,11 @@ class HasProfilePhoto
      */
     public function deleteProfilePhoto()
     {
-        if (!Features::managesProfilePhotos()) {
+        if (! Features::managesProfilePhotos()) {
             return;
         }
 
-        if (!$this->hasMedia('profile')) {
+        if (! $this->hasMedia('profile')) {
             return;
         }
 
@@ -45,8 +45,6 @@ class HasProfilePhoto
 
     /**
      * Get the URL to the user's profile photo.
-     *
-     * @return \Illuminate\Database\Eloquent\Casts\Attribute
      */
     public function profilePhotoUrl(): Attribute
     {
@@ -80,5 +78,4 @@ class HasProfilePhoto
     {
         return isset($_ENV['VAPOR_ARTIFACT_NAME']) ? 's3' : config('jetstream.profile_photo_disk', 'public');
     }
-
 }

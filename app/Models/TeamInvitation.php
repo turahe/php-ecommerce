@@ -25,6 +25,7 @@ use Wildside\Userstamps\Userstamps;
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
  * @property-read \App\Models\Team $team
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|TeamInvitation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|TeamInvitation newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|TeamInvitation query()
@@ -38,12 +39,14 @@ use Wildside\Userstamps\Userstamps;
  * @method static \Illuminate\Database\Eloquent\Builder|TeamInvitation whereTeamId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TeamInvitation whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TeamInvitation whereUpdatedBy($value)
+ *
  * @mixin \Eloquent
  */
 class TeamInvitation extends JetstreamTeamInvitation
 {
     use HasUlids;
     use Userstamps;
+
     /**
      * The attributes that are mass assignable.
      *

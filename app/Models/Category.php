@@ -33,6 +33,7 @@ use Wildside\Userstamps\Userstamps;
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
  * @property-read Category|null $parent
+ *
  * @method static \Kalnoy\Nestedset\Collection<int, static> all($columns = ['*'])
  * @method static \Kalnoy\Nestedset\QueryBuilder|Category ancestorsAndSelf($id, array $columns = [])
  * @method static \Kalnoy\Nestedset\QueryBuilder|Category ancestorsOf($id, array $columns = [])
@@ -95,6 +96,7 @@ use Wildside\Userstamps\Userstamps;
  * @method static \Kalnoy\Nestedset\QueryBuilder|Category withoutRoot()
  * @method static \Kalnoy\Nestedset\Collection<int, static> all($columns = ['*'])
  * @method static \Kalnoy\Nestedset\Collection<int, static> get($columns = ['*'])
+ *
  * @mixin \Eloquent
  */
 class Category extends Model
@@ -102,8 +104,8 @@ class Category extends Model
     use HasFactory;
     use HasUlids;
     use NodeTrait;
-    use Userstamps;
     use Searchable {
         \Laravel\Scout\Searchable::usesSoftDelete insteadof \Kalnoy\Nestedset\NodeTrait;
     }
+    use Userstamps;
 }

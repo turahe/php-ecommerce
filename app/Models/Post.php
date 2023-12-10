@@ -14,6 +14,7 @@ use Laravel\Scout\Searchable;
  * @property-read int|null $children_count
  * @property-read Post|null $parent
  * @property-write mixed $parent_id
+ *
  * @method static \Kalnoy\Nestedset\Collection<int, static> all($columns = ['*'])
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post ancestorsAndSelf($id, array $columns = [])
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post ancestorsOf($id, array $columns = [])
@@ -59,14 +60,17 @@ use Laravel\Scout\Searchable;
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post whereNotDescendantOf($id)
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post withDepth(string $as = 'depth')
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post withoutRoot()
+ *
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Kalnoy\Nestedset\Collection<int, static> all($columns = ['*'])
  * @method static \Kalnoy\Nestedset\Collection<int, static> get($columns = ['*'])
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post whereCreatedAt($value)
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post whereId($value)
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Post extends Model

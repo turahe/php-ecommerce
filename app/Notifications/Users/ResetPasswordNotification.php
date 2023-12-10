@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Notifications\Users;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class ResetPasswordNotification extends Notification implements ShouldQueue
 {
@@ -40,9 +41,9 @@ class ResetPasswordNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->success()
-            ->line('Hi there ' . $notifiable->username)
+            ->line('Hi there '.$notifiable->username)
             ->line('This notification is on behalf of '.config('app.name').' to let you know that your password has been successfully reset.')
-            ->line('If you did not reset your account password, please contact Mailgun Support immediately at ' .config('mail.from.address'))
+            ->line('If you did not reset your account password, please contact Mailgun Support immediately at '.config('mail.from.address'))
             ->line('Thank you for using our application!');
     }
 
@@ -54,13 +55,13 @@ class ResetPasswordNotification extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return [
-            'category'    => 'user',
-            'title'       => 'User reset password',
+            'category' => 'user',
+            'title' => 'User reset password',
             'description' => 'This notification is on behalf of '.config('app.name').' to let you know that your password has been successfully reset.',
-            'action'      => [
-                'type'   => 'link',
+            'action' => [
+                'type' => 'link',
                 'params' => [
-                    'url'   => '',
+                    'url' => '',
                     'label' => 'View',
                 ],
             ],
