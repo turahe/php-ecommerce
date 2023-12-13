@@ -28,7 +28,8 @@ return new class extends Migration
             $table->ulid('id')->primary(); // permission id
             $table->string('name');       // For MySQL 8.0 use string('name', 125);
             $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
-            $table->timestamps();
+            $table->integer('created_at')->nullable();
+            $table->integer('updated_at')->nullable();
 
             $table->unique(['name', 'guard_name']);
         });
@@ -41,7 +42,8 @@ return new class extends Migration
             }
             $table->string('name');       // For MySQL 8.0 use string('name', 125);
             $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
-            $table->timestamps();
+            $table->integer('created_at')->nullable();
+            $table->integer('updated_at')->nullable();
             if ($teams || config('permission.testing')) {
                 $table->unique([$columnNames['team_foreign_key'], 'name', 'guard_name']);
             } else {

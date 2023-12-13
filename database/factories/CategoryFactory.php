@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>
@@ -16,8 +17,22 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
+        $name = $this->faker->unique()->randomElement([
+            'Gear',
+            'Clothing',
+            'Shoes',
+            'Diapering',
+            'Feeding',
+            'Bath',
+            'Toys',
+            'Nursery',
+            'Household',
+            'Grocery'
+        ]);
         return [
-            //
+            'name' => $name,
+            'slug' => Str::slug($name),
+            'description' => $this->faker->paragraph,
         ];
     }
 }

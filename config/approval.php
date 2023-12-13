@@ -7,6 +7,6 @@ return [
          *
          * Default: 'approvalable'
          */
-        'approval_pivot' => 'approvalable',
+        'approval_pivot' => 'model',
     ],
 ];

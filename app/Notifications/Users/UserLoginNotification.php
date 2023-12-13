@@ -29,8 +29,6 @@ class UserLoginNotification extends Notification implements ShouldQueue
      */
     public $time;
 
-    private $agent;
-
     /**
      * Create a new notification instance.
      */
@@ -38,8 +36,6 @@ class UserLoginNotification extends Notification implements ShouldQueue
     {
         $this->ip = $ip;
         $this->userAgent = $userAgent;
-        $this->time = Carbon::now();
-        $this->agent = new MobileDetect();
     }
 
     /**

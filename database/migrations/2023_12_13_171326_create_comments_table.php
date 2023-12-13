@@ -11,11 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('team_user', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->foreignUlid('team_id');
-            $table->foreignUlid('user_id');
-            $table->string('role')->nullable();
+            $table->nullableUlidMorphs('model');
+
+            $table->string('title')->nullable();
+            $table->text('content');
+            $table->integer('published_at')->nullable();
+            $table->string('type')->default('comment')->comment('comment, review ,testimony faq, featured');
+            $table->unsignedBigInteger('record_left')->nullable();
+            $table->unsignedBigInteger('record_right')->nullable();
+            $table->unsignedBigInteger('record_ordering')->nullable();
+            $table->ulid('parent_id')->nullable();
 
             $table->foreignUlid('created_by')
                 ->nullable()
@@ -33,8 +40,6 @@ return new class extends Migration
             $table->integer('created_at')->nullable();
             $table->integer('updated_at')->nullable();
             $table->integer('deleted_at')->nullable();
-
-            $table->unique(['team_id', 'user_id']);
         });
     }
 
@@ -43,6 +48,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('team_user');
+        Schema::dropIfExists('comments');
     }
 };

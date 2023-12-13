@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
  * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Permission newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Permission newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Permission permission($permissions, $without = false)
@@ -31,10 +30,11 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
  * @method static \Illuminate\Database\Eloquent\Builder|Permission whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Permission withoutPermission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder|Permission withoutRole($roles, $guard = null)
- *
  * @mixin \Eloquent
  */
 class Permission extends \Spatie\Permission\Models\Permission
 {
     use HasUlids;
+
+    protected $dateFormat = 'U';
 }

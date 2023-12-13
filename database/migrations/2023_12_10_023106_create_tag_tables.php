@@ -17,17 +17,20 @@ return new class extends Migration
             $table->integer('order_column')->nullable();
 
             $table->foreignUlid('created_by')
+                ->nullable()
                 ->constrained('users')
                 ->cascadeOnDelete();
             $table->foreignUlid('updated_by')
+                ->nullable()
                 ->constrained('users')
                 ->cascadeOnDelete();
             $table->foreignUlid('deleted_by')
                 ->nullable()
                 ->constrained('users')
                 ->cascadeOnDelete();
-            $table->softDeletes();
-            $table->timestamps();
+            $table->integer('created_at')->nullable();
+            $table->integer('updated_at')->nullable();
+            $table->integer('deleted_at')->nullable();
         });
 
         Schema::create('taggables', function (Blueprint $table) {

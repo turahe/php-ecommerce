@@ -11,11 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('team_user', function (Blueprint $table) {
+        Schema::create('product_attributes', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->foreignUlid('team_id');
-            $table->foreignUlid('user_id');
-            $table->string('role')->nullable();
+            $table->integer('quantity');
+            $table->decimal('price')->nullable();
+            $table->foreignUlid('product_id');
+            $table->decimal('length')->nullable();
+            $table->decimal('width')->nullable();
+            $table->decimal('height')->nullable();
+            $table->string('distance_unit')->nullable();
+            $table->decimal('weight')->default(0)->nullable();
+            $table->string('mass_unit')->nullable();
+            $table->unsignedInteger('product_attribute_id')->nullable();
 
             $table->foreignUlid('created_by')
                 ->nullable()
@@ -29,12 +36,9 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('users')
                 ->cascadeOnDelete();
-
             $table->integer('created_at')->nullable();
             $table->integer('updated_at')->nullable();
             $table->integer('deleted_at')->nullable();
-
-            $table->unique(['team_id', 'user_id']);
         });
     }
 
@@ -43,6 +47,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('team_user');
+        Schema::dropIfExists('product_attributes');
     }
 };

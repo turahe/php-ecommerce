@@ -8,6 +8,7 @@ use Laravel\Jetstream\Events\TeamCreated;
 use Laravel\Jetstream\Events\TeamDeleted;
 use Laravel\Jetstream\Events\TeamUpdated;
 use Laravel\Jetstream\Team as JetstreamTeam;
+use Spatie\EloquentSortable\SortableTrait;
 use Wildside\Userstamps\Userstamps;
 
 /**
@@ -31,7 +32,6 @@ use Wildside\Userstamps\Userstamps;
  * @property-read int|null $team_invitations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
- *
  * @method static \Database\Factories\TeamFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Team newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Team newQuery()
@@ -46,7 +46,6 @@ use Wildside\Userstamps\Userstamps;
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereUserId($value)
- *
  * @mixin \Eloquent
  */
 class Team extends JetstreamTeam
@@ -55,6 +54,7 @@ class Team extends JetstreamTeam
     use HasUlids;
     use Userstamps;
 
+    protected $dateFormat = 'U';
     /**
      * The attributes that should be cast.
      *
@@ -62,6 +62,8 @@ class Team extends JetstreamTeam
      */
     protected $casts = [
         'personal_team' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
     ];
 
     /**

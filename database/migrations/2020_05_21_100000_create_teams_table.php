@@ -16,18 +16,22 @@ return new class extends Migration
             $table->foreignUlid('user_id')->index();
             $table->string('name');
             $table->boolean('personal_team');
+
             $table->foreignUlid('created_by')
+                ->nullable()
                 ->constrained('users')
                 ->cascadeOnDelete();
             $table->foreignUlid('updated_by')
+                ->nullable()
                 ->constrained('users')
                 ->cascadeOnDelete();
             $table->foreignUlid('deleted_by')
                 ->nullable()
                 ->constrained('users')
                 ->cascadeOnDelete();
-            $table->softDeletes();
-            $table->timestamps();
+            $table->integer('created_at')->nullable();
+            $table->integer('updated_at')->nullable();
+            $table->integer('deleted_at')->nullable();
         });
     }
 

@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('team_user', function (Blueprint $table) {
+        Schema::create('settings', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->foreignUlid('team_id');
-            $table->foreignUlid('user_id');
-            $table->string('role')->nullable();
-
+            $table->nullableUlidMorphs('model');
+            $table->string('option_key');
+            $table->longText('option_value')->nullable();
             $table->foreignUlid('created_by')
                 ->nullable()
                 ->constrained('users')
@@ -29,12 +28,9 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('users')
                 ->cascadeOnDelete();
-
             $table->integer('created_at')->nullable();
             $table->integer('updated_at')->nullable();
             $table->integer('deleted_at')->nullable();
-
-            $table->unique(['team_id', 'user_id']);
         });
     }
 
@@ -43,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('team_user');
+        Schema::dropIfExists('settings');
     }
 };

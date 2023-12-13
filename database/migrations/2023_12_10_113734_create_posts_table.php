@@ -16,7 +16,7 @@ return new class extends Migration
             $table->ulid('id')->primary();
             $table->string('slug')->unique();
             $table->string('title');
-            $table->string('subtitle')->nullable()->comment('subtitle of title post');
+            $table->foreignUlid('category_id');
             $table->longText('description')->nullable()->comment('description of post');
             $table->text('content_raw');
             $table->text('content_html');
@@ -27,20 +27,26 @@ return new class extends Migration
             $table->string('language')->default('en');
             $table->string('layout')->nullable();
 
-            NestedSet::columns($table);
+            $table->unsignedBigInteger('record_ordering');
+            $table->unsignedBigInteger('record_left')->nullable();
+            $table->unsignedBigInteger('record_right')->nullable();
+            $table->ulid('parent_id')->nullable();
 
             $table->foreignUlid('created_by')
+                ->nullable()
                 ->constrained('users')
                 ->cascadeOnDelete();
             $table->foreignUlid('updated_by')
+                ->nullable()
                 ->constrained('users')
                 ->cascadeOnDelete();
             $table->foreignUlid('deleted_by')
                 ->nullable()
                 ->constrained('users')
                 ->cascadeOnDelete();
-            $table->softDeletes();
-            $table->timestamps();
+            $table->integer('created_at')->nullable();
+            $table->integer('updated_at')->nullable();
+            $table->integer('deleted_at')->nullable();
         });
     }
 

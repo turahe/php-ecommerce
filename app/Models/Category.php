@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kalnoy\Nestedset\NodeTrait;
 use Laravel\Scout\Searchable;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
+use Turahe\Master\Traits\SortableTrait;
 use Wildside\Userstamps\Userstamps;
 
 /**
@@ -33,7 +37,6 @@ use Wildside\Userstamps\Userstamps;
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
  * @property-read Category|null $parent
- *
  * @method static \Kalnoy\Nestedset\Collection<int, static> all($columns = ['*'])
  * @method static \Kalnoy\Nestedset\QueryBuilder|Category ancestorsAndSelf($id, array $columns = [])
  * @method static \Kalnoy\Nestedset\QueryBuilder|Category ancestorsOf($id, array $columns = [])
@@ -96,16 +99,78 @@ use Wildside\Userstamps\Userstamps;
  * @method static \Kalnoy\Nestedset\QueryBuilder|Category withoutRoot()
  * @method static \Kalnoy\Nestedset\Collection<int, static> all($columns = ['*'])
  * @method static \Kalnoy\Nestedset\Collection<int, static> get($columns = ['*'])
- *
+ * @property string|null $type
+ * @property int|null $record_left
+ * @property int|null $record_right
+ * @property-read \Kalnoy\Nestedset\Collection<int, \App\Models\Post> $post
+ * @property-read int|null $post_count
+ * @method static \Kalnoy\Nestedset\Collection<int, static> all($columns = ['*'])
+ * @method static \Kalnoy\Nestedset\Collection<int, static> get($columns = ['*'])
+ * @method static \Kalnoy\Nestedset\QueryBuilder|Category whereRecordLeft($value)
+ * @method static \Kalnoy\Nestedset\QueryBuilder|Category whereRecordRight($value)
+ * @method static \Kalnoy\Nestedset\QueryBuilder|Category whereType($value)
+ * @method static \Kalnoy\Nestedset\Collection<int, static> all($columns = ['*'])
+ * @method static \Kalnoy\Nestedset\Collection<int, static> get($columns = ['*'])
  * @mixin \Eloquent
  */
 class Category extends Model
 {
     use HasFactory;
     use HasUlids;
+    use HasSlug;
     use NodeTrait;
     use Searchable {
         \Laravel\Scout\Searchable::usesSoftDelete insteadof \Kalnoy\Nestedset\NodeTrait;
     }
     use Userstamps;
+
+    protected $dateFormat = 'U';
+
+    /**
+     * @return string
+     */
+    public function getLftName()
+    {
+        return 'record_left';
+    }
+
+    /**
+     * @return string
+     */
+    public function getRgtName()
+    {
+        return 'record_right';
+    }
+
+    /**
+     * @return string
+     */
+    public function getParentIdName()
+    {
+        return 'parent_id';
+    }
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime'
+    ];
+
+    /**
+     * Get the options for generating the slug.
+     */
+    public function getSlugOptions() : SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('name')
+            ->saveSlugsTo('slug');
+    }
+
+    public function post()
+    {
+        return $this->hasMany(Post::class);
+
+    }
+
+
 }

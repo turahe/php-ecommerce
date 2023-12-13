@@ -17,21 +17,27 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('slug');
             $table->text('description')->nullable();
-            $table->string('cover')->nullable();
-            $table->integer('status')->default(0);
-            NestedSet::columns($table);
+            $table->string('type')->nullable();
+
+            $table->unsignedBigInteger('record_left')->nullable();
+            $table->unsignedBigInteger('record_right')->nullable();
+            $table->ulid('parent_id')->nullable();
+
             $table->foreignUlid('created_by')
+                ->nullable()
                 ->constrained('users')
                 ->cascadeOnDelete();
             $table->foreignUlid('updated_by')
+                ->nullable()
                 ->constrained('users')
                 ->cascadeOnDelete();
             $table->foreignUlid('deleted_by')
                 ->nullable()
                 ->constrained('users')
                 ->cascadeOnDelete();
-            $table->softDeletes();
-            $table->timestamps();
+            $table->integer('created_at')->nullable();
+            $table->integer('updated_at')->nullable();
+            $table->integer('deleted_at')->nullable();
         });
     }
 

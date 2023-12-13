@@ -13,16 +13,18 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            \Turahe\Master\Seeds\CountriesTableSeeder::class,
-            \Turahe\Master\Seeds\ProvincesTableSeeder::class,
-            \Turahe\Master\Seeds\CitiesTableSeeder::class,
-            \Turahe\Master\Seeds\DistrictsTableSeeder::class,
+//            \Turahe\Master\Seeds\CountriesTableSeeder::class,
+//            \Turahe\Master\Seeds\ProvincesTableSeeder::class,
+//            \Turahe\Master\Seeds\CitiesTableSeeder::class,
+//            \Turahe\Master\Seeds\DistrictsTableSeeder::class,
             //             \Turahe\Master\Seeds\VillagesTableSeeder::class,
-            \Turahe\Master\Seeds\BanksTableSeeder::class,
-            \Turahe\Master\Seeds\CurrenciesTableSeeder::class,
-            \Turahe\Master\Seeds\LanguagesTableSeeder::class,
+//            \Turahe\Master\Seeds\BanksTableSeeder::class,
+//            \Turahe\Master\Seeds\CurrenciesTableSeeder::class,
+//            \Turahe\Master\Seeds\LanguagesTableSeeder::class,
             RolesAndPermissionsSeeder::class,
             UserTableSeeder::class,
+            CategoriesTableSeeder::class,
+            PostTableSeeder::class
         ]);
     }
 }
