@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Kalnoy\Nestedset\NestedSet;
 
 return new class extends Migration
 {
@@ -12,16 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('addresses', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->string('name')->unique();
-            $table->text('description')->nullable();
-            $table->string('type')->nullable();
-
-            $table->unsignedBigInteger('record_left')->nullable();
-            $table->unsignedBigInteger('record_right')->nullable();
-            $table->ulid('parent_id')->nullable();
-
+            $table->ulidMorphs('model');
+            $table->string('title');
+            $table->string('address');
+            $table->string('postal_code');
+            $table->string('phone')->nullable();
+            $table->unsignedBigInteger('village_id')->nullable();
+            $table->string('map_latitude')->nullable();
+            $table->string('map_longitude')->nullable();
+            $table->enum('type', ['billing', 'home', 'office', 'main'])->default('home');
             $table->foreignUlid('created_by')
                 ->nullable()
                 ->constrained('users')
@@ -34,6 +34,7 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('users')
                 ->cascadeOnDelete();
+
             $table->integer('created_at')->nullable();
             $table->integer('updated_at')->nullable();
             $table->integer('deleted_at')->nullable();
@@ -45,6 +46,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('addresses');
     }
 };

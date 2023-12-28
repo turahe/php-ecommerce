@@ -14,16 +14,26 @@ class PostTableSeeder extends Seeder
      */
     public function run(): void
     {
+
+
         Category::all()->each(function (Category $category) {
-            $post = $category->post()->saveMany(Post::factory(10)->create([
+            $category->post()->saveMany(Post::factory(10)->create([
                 'type' => 'blog',
                 'category_id' => $category->id
-            ]));
-        });
+            ])->each(function (Post $post) use ($category) {
+                $post->children()->saveMany(Post::factory(mt_rand(1,3))->create([
+                    'type' => 'blog',
+                    'category_id' => $category->id,
+                ]));
+//                generate comment
+                $post->comments()->saveMany(Comment::factory(3)->make()->each(function (Comment $comment) {
+//                    generate comment children
+                    $comment->children()->saveMany(Comment::factory(2)->make());
+                }));
 
-        $posts = Post::whereType('blog')->cursor();
-        foreach ($posts as $post) {
-            $post->comments()->saveMany(Comment::factory(3)->make());
-        }
+            }));
+
+        });
     }
+
 }

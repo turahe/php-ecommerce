@@ -33,6 +33,16 @@ use \Illuminate\Notifications\DatabaseNotification as LaravelDatabaseNotificatio
  * @method static \Illuminate\Database\Eloquent\Builder|DatabaseNotification whereUpdatedAt($value)
  * @method static \Illuminate\Notifications\DatabaseNotificationCollection<int, static> all($columns = ['*'])
  * @method static \Illuminate\Notifications\DatabaseNotificationCollection<int, static> get($columns = ['*'])
+ * @method static \Illuminate\Notifications\DatabaseNotificationCollection<int, static> all($columns = ['*'])
+ * @method static \Illuminate\Notifications\DatabaseNotificationCollection<int, static> get($columns = ['*'])
+ * @method static \Illuminate\Notifications\DatabaseNotificationCollection<int, static> all($columns = ['*'])
+ * @method static \Illuminate\Notifications\DatabaseNotificationCollection<int, static> get($columns = ['*'])
+ * @method static \Illuminate\Notifications\DatabaseNotificationCollection<int, static> all($columns = ['*'])
+ * @method static \Illuminate\Notifications\DatabaseNotificationCollection<int, static> get($columns = ['*'])
+ * @method static \Illuminate\Notifications\DatabaseNotificationCollection<int, static> all($columns = ['*'])
+ * @method static \Illuminate\Notifications\DatabaseNotificationCollection<int, static> get($columns = ['*'])
+ * @method static \Illuminate\Notifications\DatabaseNotificationCollection<int, static> all($columns = ['*'])
+ * @method static \Illuminate\Notifications\DatabaseNotificationCollection<int, static> get($columns = ['*'])
  * @mixin \Eloquent
  */
 class DatabaseNotification extends LaravelDatabaseNotification

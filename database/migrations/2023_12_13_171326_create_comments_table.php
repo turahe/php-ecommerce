@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('content');
             $table->integer('published_at')->nullable();
             $table->string('type')->default('comment')->comment('comment, review ,testimony faq, featured');
+
             $table->unsignedBigInteger('record_left')->nullable();
             $table->unsignedBigInteger('record_right')->nullable();
             $table->unsignedBigInteger('record_ordering')->nullable();

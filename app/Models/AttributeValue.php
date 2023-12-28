@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Spatie\EloquentSortable\SortableTrait;
 use Turahe\Master\Models\Model;
 
 /**

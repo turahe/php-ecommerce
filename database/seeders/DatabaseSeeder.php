@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Auth;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,6 +14,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
+
         $this->call([
 //            \Turahe\Master\Seeds\CountriesTableSeeder::class,
 //            \Turahe\Master\Seeds\ProvincesTableSeeder::class,
@@ -23,6 +27,12 @@ class DatabaseSeeder extends Seeder
 //            \Turahe\Master\Seeds\LanguagesTableSeeder::class,
             RolesAndPermissionsSeeder::class,
             UserTableSeeder::class,
+
+        ]);
+        $user = User::first();
+        Auth::loginUsingId($user->id);
+
+        $this->call([
             CategoriesTableSeeder::class,
             PostTableSeeder::class
         ]);

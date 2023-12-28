@@ -14,8 +14,8 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->string('slug')->unique();
             $table->string('title');
+            $table->foreignUlid('brand_id')->nullable();
             $table->foreignUlid('category_id');
             $table->longText('description')->nullable()->comment('description of post');
             $table->text('content_raw');

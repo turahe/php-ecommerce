@@ -10,18 +10,18 @@ use Illuminate\Support\Str;
 use Kalnoy\Nestedset\NodeTrait;
 use Laravel\Scout\Searchable;
 use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\Exception\CommonMarkException;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
-use Spatie\Sluggable\HasSlug;
-use Spatie\Sluggable\SlugOptions;
+use Spatie\Tags\HasTags;
 use Wildside\Userstamps\Userstamps;
 
 /**
  * App\Models\Post
  *
- * @property int $id
- * @property string $slug
+ * @property string $id
  * @property string $title
+ * @property string|null $brand_id
  * @property string $category_id
  * @property string|null $description description of post
  * @property string $content_raw
@@ -40,13 +40,17 @@ use Wildside\Userstamps\Userstamps;
  * @property string|null $deleted_by
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Models\Category|null $category
  * @property-read \Kalnoy\Nestedset\Collection<int, Post> $children
  * @property-read int|null $children_count
+ * @property-read \Kalnoy\Nestedset\Collection<int, \App\Models\Comment> $comments
+ * @property-read int|null $comments_count
  * @property-read \App\Models\User|null $creator
  * @property-read \App\Models\User|null $destroyer
  * @property-read \App\Models\User|null $editor
+ * @property-read string $content
+ * @property-read mixed|string $excerpt
  * @property-read Post|null $parent
  * @property-read \App\Models\Product|null $product
  * @method static \Kalnoy\Nestedset\Collection<int, static> all($columns = ['*'])
@@ -78,6 +82,7 @@ use Wildside\Userstamps\Userstamps;
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post orWhereNodeBetween($values)
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post orWhereNotDescendantOf($id)
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post ordered(string $direction = 'asc')
+ * @method static \Kalnoy\Nestedset\QueryBuilder|Post published()
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post query()
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post rebuildSubtree($root, array $data, $delete = false)
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post rebuildTree(array $data, $delete = false, $root = null)
@@ -85,6 +90,7 @@ use Wildside\Userstamps\Userstamps;
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post root(array $columns = [])
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post whereAncestorOf($id, $andSelf = false, $boolean = 'and')
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post whereAncestorOrSelf($id)
+ * @method static \Kalnoy\Nestedset\QueryBuilder|Post whereBrandId($value)
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post whereCategoryId($value)
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post whereContentHtml($value)
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post whereContentRaw($value)
@@ -110,13 +116,16 @@ use Wildside\Userstamps\Userstamps;
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post whereRecordLeft($value)
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post whereRecordOrdering($value)
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post whereRecordRight($value)
- * @method static \Kalnoy\Nestedset\QueryBuilder|Post whereSlug($value)
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post whereTitle($value)
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post whereType($value)
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post whereUpdatedAt($value)
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post whereUpdatedBy($value)
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post withDepth(string $as = 'depth')
  * @method static \Kalnoy\Nestedset\QueryBuilder|Post withoutRoot()
+ * @method static \Kalnoy\Nestedset\Collection<int, static> all($columns = ['*'])
+ * @method static \Kalnoy\Nestedset\Collection<int, static> get($columns = ['*'])
+ * @method static \Kalnoy\Nestedset\Collection<int, static> all($columns = ['*'])
+ * @method static \Kalnoy\Nestedset\Collection<int, static> get($columns = ['*'])
  * @method static \Kalnoy\Nestedset\Collection<int, static> all($columns = ['*'])
  * @method static \Kalnoy\Nestedset\Collection<int, static> get($columns = ['*'])
  * @mixin \Eloquent
@@ -127,7 +136,7 @@ class Post extends Model implements Sortable
 //    use MustBeApproved;
     use NodeTrait;
     use HasUlids;
-    use HasSlug;
+    use HasTags;
     use Searchable {
         \Laravel\Scout\Searchable::usesSoftDelete insteadof \Kalnoy\Nestedset\NodeTrait;
     }
@@ -164,22 +173,14 @@ class Post extends Model implements Sortable
     protected $casts = [
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
-        'deleted_at' => 'datetime'
+        'deleted_at' => 'datetime',
+        'published_at' => 'datetime'
     ];
 
     public $sortable = [
         'order_column_name' => 'record_ordering',
         'sort_when_creating' => true,
     ];
-    /**
-     * Get the options for generating the slug.
-     */
-    public function getSlugOptions() : SlugOptions
-    {
-        return SlugOptions::create()
-            ->generateSlugsFrom('name')
-            ->saveSlugsTo('slug');
-    }
     /**
      * Return collection of addresses related to the tagged model.
      * Ordered comment by latest published.
@@ -196,6 +197,7 @@ class Post extends Model implements Sortable
      * Set the HTML content automatically when the raw content is set.
      *
      * @param string $value
+     * @throws CommonMarkException
      */
     public function setContentRawAttribute(string $value): void
     {

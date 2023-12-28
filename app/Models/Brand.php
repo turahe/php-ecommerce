@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Turahe\Master\Traits\SortableTrait;
 use Turahe\Media\HasMedia;
 use Wildside\Userstamps\Userstamps;
 
@@ -42,9 +42,16 @@ class Brand extends Model
 {
     use HasFactory;
     use HasMedia;
+    use HasUlids;
     use Userstamps;
 
     protected $dateFormat = 'U';
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime'
+    ];
 
 
     public function products()

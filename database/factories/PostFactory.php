@@ -16,9 +16,15 @@ class PostFactory extends Factory
      */
     public function definition(): array
     {
+        $content = collect($this->faker->paragraphs(mt_rand(3, 7), true))
+            ->map(static function ($item) {
+                return $item;
+            })->toArray();
+
+        $content = implode($content);
         return [
             'title' => $this->faker->sentence,
-            'content_raw' => $this->faker->paragraph
+            'content_raw' => $content
         ];
     }
 }

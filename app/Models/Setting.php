@@ -27,6 +27,12 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Setting whereOptionKey($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Setting whereOptionValue($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Setting whereUpdatedAt($value)
+ * @property string|null $created_by
+ * @property string|null $updated_by
+ * @property string|null $deleted_by
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting whereUpdatedBy($value)
  * @mixin \Eloquent
  */
 class Setting extends Model

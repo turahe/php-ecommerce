@@ -111,13 +111,22 @@ use Wildside\Userstamps\Userstamps;
  * @method static \Kalnoy\Nestedset\QueryBuilder|Category whereType($value)
  * @method static \Kalnoy\Nestedset\Collection<int, static> all($columns = ['*'])
  * @method static \Kalnoy\Nestedset\Collection<int, static> get($columns = ['*'])
+ * @method static \Kalnoy\Nestedset\Collection<int, static> all($columns = ['*'])
+ * @method static \Kalnoy\Nestedset\Collection<int, static> get($columns = ['*'])
+ * @method static \Kalnoy\Nestedset\Collection<int, static> all($columns = ['*'])
+ * @method static \Kalnoy\Nestedset\Collection<int, static> get($columns = ['*'])
+ * @method static \Kalnoy\Nestedset\Collection<int, static> all($columns = ['*'])
+ * @method static \Kalnoy\Nestedset\Collection<int, static> get($columns = ['*'])
+ * @method static \Kalnoy\Nestedset\Collection<int, static> all($columns = ['*'])
+ * @method static \Kalnoy\Nestedset\Collection<int, static> get($columns = ['*'])
+ * @method static \Kalnoy\Nestedset\Collection<int, static> all($columns = ['*'])
+ * @method static \Kalnoy\Nestedset\Collection<int, static> get($columns = ['*'])
  * @mixin \Eloquent
  */
 class Category extends Model
 {
     use HasFactory;
     use HasUlids;
-    use HasSlug;
     use NodeTrait;
     use Searchable {
         \Laravel\Scout\Searchable::usesSoftDelete insteadof \Kalnoy\Nestedset\NodeTrait;

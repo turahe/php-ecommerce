@@ -23,6 +23,12 @@ use Spatie\EloquentSortable\SortableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|Attribute whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Attribute whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Attribute whereUpdatedAt($value)
+ * @property string|null $created_by
+ * @property string|null $updated_by
+ * @property string|null $deleted_by
+ * @method static \Illuminate\Database\Eloquent\Builder|Attribute whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attribute whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attribute whereUpdatedBy($value)
  * @mixin \Eloquent
  */
 class Attribute extends Model

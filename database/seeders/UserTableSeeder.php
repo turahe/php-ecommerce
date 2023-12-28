@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Address;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -25,6 +26,7 @@ class UserTableSeeder extends Seeder
             $team = Team::factory()->create(['user_id' => $user->id]);
             //            setPermissionsTeamId($team->id); // needs team_id for session instance of user
             $user->assignRole('user');
+            $user->addresses()->saveMany(Address::factory(2)->make());
         });
     }
 }
